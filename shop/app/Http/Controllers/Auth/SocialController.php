@@ -6,12 +6,15 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
+use App\Traits\ActivationTrait;
 use App\Models\Social;
 use App\Models\User;
 use App\Models\Role;
 
 class SocialController extends Controller
 {
+
+    use ActivationTrait;
 
     public function getSocialRedirect( $provider )
     {
@@ -34,7 +37,7 @@ class SocialController extends Controller
 
         if (Input::get('denied') != '') {
 
-            return redirect()->to('/login')
+            return redirect()->to('login')
                 ->with('status', 'danger')
                 ->with('message', 'You did not share your profile data with our social app.');
 
@@ -81,6 +84,7 @@ class SocialController extends Controller
 
                 $newSocialUser->password = bcrypt(str_random(16));
                 $newSocialUser->token = str_random(64);
+                $newSocialUser->activated = true; //!config('settings.activation');
                 $newSocialUser->save();
 
                 $socialData = new Social;
@@ -91,6 +95,8 @@ class SocialController extends Controller
                 // Add role
                 $role = Role::whereName('user')->first();
                 $newSocialUser->assignRole($role);
+
+                $this->initiateEmailActivation($newSocialUser);
 
                 $socialUser = $newSocialUser;
 

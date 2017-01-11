@@ -11,9 +11,17 @@
     <meta name="author" content="Ivan Radunovic">
     <link rel="shortcut icon" href="https://tuts.codingo.me/assets/img/box.png">
 
+    <meta property="og:url" content="http://demo1.codingo.me/">
+    <meta property="og:title" content="Live Demo of Laravel 5.3 app with Multi-authentication and Social logins">
+    <meta property="og:description" content="Laravel 5.3 bootstrap app with Multi Auth, Social and Email Authentication. Google re-Captcha, Facebook, Twitter, G+ and much more...">
+    <meta property="og:image" content="https://tuts.codingo.me/wp-content/uploads/2016/10/social-og.png">
+    <meta property="og:site_name" content="Codingo Tuts">
+    <meta property="og:image:type" content="image/png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.1.1/css/mdb.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -50,21 +58,21 @@
                         <a class="nav-link" href="https://github.com/codingo-me/laravel-social-email-authentication" target="_blank"><i class="fa fa-download"></i>  Download</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.home')  }}"> Home</a>
+                        <a class="nav-link" href="{{ route('public.home')  }}"><i class="fa fa-home"></i> Home</a>
                     </li>
                     @if(!Auth::check())
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/login') }}"> Login</a>
+                        <a class="nav-link" href="{{ url('login') }}"><i class="fa fa-sign-in"></i> Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/register') }}"> Register</a>
+                        <a class="nav-link" href="{{ url('register') }}"><i class="fa fa-registered"></i> Register</a>
                     </li>
                     @else
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> {{ Auth::user()->first_name }}</a>
+                        <a class="nav-link" href="{{ Auth::user()->homeUrl() }}"><i class="fa fa-user"></i> {{ Auth::user()->first_name }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/logout') }}"> Logout</a>
+                        <a class="nav-link" href="{{ url('logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
                     </li>
                     @endif
                 </ul>
@@ -117,5 +125,15 @@
 
 @yield('footer')
 
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-60551246-3', 'auto');
+    ga('send', 'pageview');
+
+</script>
 </body>
 </html>
